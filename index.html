@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mariana Silva — Design de Interiores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:     #1C1917;
+      --sand:    #F5F0E8;
+      --gold:    #C9A96E;
+      --tobacco: #4A4540;
+      --surface: #E8E0D4;
+      --gap: clamp(3rem, 8vw, 7rem);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--sand);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: clamp(15px, 1.1vw, 17px);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.8rem clamp(1.5rem, 5vw, 4rem);
+      mix-blend-mode: normal;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: 1.1rem; letter-spacing: .05em;
+      color: var(--sand); text-decoration: none;
+      opacity: 0; animation: fadeIn .8s 1.2s forwards;
+    }
+    .nav-links {
+      display: flex; gap: 2.5rem; list-style: none;
+      opacity: 0; animation: fadeIn .8s 1.4s forwards;
+    }
+    .nav-links a {
+      color: var(--sand); text-decoration: none;
+      font-size: .8rem; letter-spacing: .18em; text-transform: uppercase;
+      opacity: .6; transition: opacity .25s;
+    }
+    .nav-links a:hover { opacity: 1; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100svh;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vh, 5rem);
+      position: relative; overflow: hidden;
+    }
+    .hero-eyebrow {
+      font-size: .75rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.2rem;
+      opacity: 0; animation: slideUp .7s .4s forwards;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(4.5rem, 13vw, 14rem);
+      line-height: .88; letter-spacing: -.02em;
+      color: var(--sand);
+      opacity: 0; animation: slideUp .9s .6s forwards;
+    }
+    .hero-name span { display: block; }
+    .hero-name .last { color: var(--gold); }
+
+    /* Linha dourada animada */
+    .hero-line-wrap {
+      margin-top: 2.5rem;
+      opacity: 0; animation: fadeIn .5s 1.3s forwards;
+    }
+    .hero-line {
+      height: 1px; background: var(--gold);
+      width: 0; animation: drawLine 1.4s cubic-bezier(.77,0,.18,1) 1.5s forwards;
+    }
+    .hero-sub {
+      margin-top: 1.8rem;
+      display: flex; gap: 4rem; align-items: flex-end;
+      opacity: 0; animation: fadeIn .8s 1.8s forwards;
+    }
+    .hero-tagline {
+      font-size: clamp(.95rem, 1.3vw, 1.15rem);
+      color: rgba(245,240,232,.6); max-width: 32ch; line-height: 1.55;
+    }
+    .hero-scroll {
+      margin-left: auto; display: flex; align-items: center; gap: .8rem;
+      font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(245,240,232,.4);
+    }
+    .hero-scroll svg { width: 18px; animation: bounce 2s 2.5s infinite; }
+
+    /* ── POSITIONING ── */
+    .positioning {
+      padding: var(--gap) clamp(1.5rem, 5vw, 4rem);
+      border-top: 1px solid rgba(201,169,110,.15);
+    }
+    .positioning-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: end;
+    }
+    .positioning-label {
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+    }
+    .positioning-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(1.9rem, 3.5vw, 3.2rem);
+      line-height: 1.2; color: var(--sand);
+    }
+    .positioning-text {
+      color: rgba(245,240,232,.55); font-size: .95rem; line-height: 1.8;
+      max-width: 42ch;
+    }
+    .positioning-stats {
+      margin-top: 3rem;
+      display: flex; gap: 3rem;
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300; color: var(--gold); line-height: 1;
+    }
+    .stat-label {
+      font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(245,240,232,.4); margin-top: .4rem;
+    }
+
+    /* ── PROJETOS ── */
+    .projects {
+      padding: var(--gap) clamp(1.5rem, 5vw, 4rem);
+      border-top: 1px solid rgba(201,169,110,.15);
+    }
+    .section-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+    }
+    .section-label {
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      color: var(--sand); line-height: 1.1;
+    }
+    .section-count {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; color: rgba(245,240,232,.3); letter-spacing: .1em;
+    }
+
+    /* Grid assimétrico: 2 colunas com card grande */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      grid-template-rows: auto auto;
+      gap: 1.5px;
+    }
+    .project-card {
+      position: relative; overflow: hidden; background: var(--tobacco);
+      cursor: pointer;
+    }
+    .project-card:first-child {
+      grid-row: span 2;
+    }
+    .project-card:first-child .card-img { height: 72vh; }
+    .card-img {
+      width: 100%; height: 44vh;
+      object-fit: cover; display: block;
+      transition: transform .9s cubic-bezier(.25,.46,.45,.94), filter .9s;
+      filter: brightness(.75) saturate(.85);
+    }
+    .project-card:hover .card-img {
+      transform: scale(1.04);
+      filter: brightness(.9) saturate(1);
+    }
+    .card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(28,25,23,.92) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .card-body {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 2.2rem 2rem;
+    }
+    .card-tag {
+      font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: .7rem;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(1.5rem, 2.2vw, 2.1rem);
+      color: var(--sand); line-height: 1.15; margin-bottom: .5rem;
+    }
+    .card-detail {
+      font-size: .8rem; color: rgba(245,240,232,.5);
+      letter-spacing: .06em;
+    }
+    .card-arrow {
+      position: absolute; top: 1.8rem; right: 1.8rem;
+      width: 38px; height: 38px; border: 1px solid rgba(201,169,110,.4);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(.8);
+      transition: opacity .35s, transform .35s, border-color .35s;
+    }
+    .project-card:hover .card-arrow {
+      opacity: 1; transform: scale(1); border-color: var(--gold);
+    }
+    .card-arrow svg { width: 14px; color: var(--gold); }
+
+    /* Project placeholder images (generated gradients) */
+    .card-img-placeholder {
+      width: 100%; object-fit: cover; display: block;
+      transition: transform .9s cubic-bezier(.25,.46,.45,.94), filter .9s;
+      filter: brightness(.75) saturate(.85);
+    }
+    .project-card:hover .card-img-placeholder {
+      transform: scale(1.04);
+      filter: brightness(.9) saturate(1);
+    }
+
+    /* ── PROCESS ── */
+    .process {
+      padding: var(--gap) clamp(1.5rem, 5vw, 4rem);
+      border-top: 1px solid rgba(201,169,110,.15);
+      background: var(--surface);
+    }
+    .process .section-title,
+    .process .section-label { color: var(--ink); }
+    .process .section-title { color: var(--ink); }
+    .process .section-label { color: var(--tobacco); }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2rem; margin-top: 3.5rem;
+    }
+    .step {
+      border-top: 1px solid rgba(28,25,23,.15);
+      padding-top: 1.5rem;
+    }
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 2.5rem; font-weight: 300;
+      color: var(--gold); line-height: 1;
+    }
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 400;
+      color: var(--ink); margin: .8rem 0 .6rem;
+    }
+    .step-text {
+      font-size: .88rem; color: rgba(28,25,23,.6); line-height: 1.7;
+    }
+
+    /* ── SOBRE ── */
+    .about {
+      padding: var(--gap) clamp(1.5rem, 5vw, 4rem);
+      border-top: 1px solid rgba(201,169,110,.15);
+    }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-frame {
+      width: 100%; aspect-ratio: 3/4;
+      background: linear-gradient(135deg, #2C2825 0%, #3A3530 50%, #4A4540 100%);
+      position: relative; overflow: hidden;
+    }
+    .about-img-frame svg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      opacity: .12;
+    }
+    .about-img-placeholder {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1rem;
+    }
+    .about-img-icon {
+      width: 48px; opacity: .3;
+    }
+    .about-img-text {
+      font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(245,240,232,.3);
+    }
+    .about-accent {
+      position: absolute; bottom: -1.5rem; right: -1.5rem;
+      width: 60%; aspect-ratio: 1;
+      border: 1px solid rgba(201,169,110,.3);
+      pointer-events: none;
+    }
+    .about-content {}
+    .about-intro {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+      line-height: 1.25; color: var(--sand); margin-bottom: 2rem;
+    }
+    .about-intro em { color: var(--gold); font-style: italic; }
+    .about-body {
+      color: rgba(245,240,232,.55); font-size: .95rem;
+      line-height: 1.85; margin-bottom: 2.5rem;
+    }
+    .about-skills {
+      display: flex; flex-wrap: wrap; gap: .7rem;
+    }
+    .skill-tag {
+      border: 1px solid rgba(201,169,110,.35);
+      padding: .45rem 1.1rem;
+      font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(245,240,232,.6);
+    }
+
+    /* ── CONTATO ── */
+    .contact {
+      padding: var(--gap) clamp(1.5rem, 5vw, 4rem);
+      border-top: 1px solid rgba(201,169,110,.15);
+      text-align: center;
+    }
+    .contact-label {
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.8rem;
+    }
+    .contact-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(2.8rem, 7vw, 7rem);
+      line-height: .92; color: var(--sand); margin-bottom: 3rem;
+    }
+    .contact-title span { display: block; }
+    .contact-title .accent { color: var(--gold); }
+    .contact-actions {
+      display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--gold); color: var(--ink);
+      padding: 1.1rem 2.8rem;
+      font-size: .8rem; letter-spacing: .16em; text-transform: uppercase;
+      text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 500;
+      transition: background .25s, transform .2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #d4b580; transform: translateY(-2px); }
+    .btn-ghost {
+      border: 1px solid rgba(201,169,110,.4); color: var(--sand);
+      padding: 1.1rem 2.8rem;
+      font-size: .8rem; letter-spacing: .16em; text-transform: uppercase;
+      text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 400;
+      transition: border-color .25s, transform .2s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--gold); transform: translateY(-2px); }
+    .contact-info {
+      margin-top: 4rem;
+      display: flex; gap: 4rem; justify-content: center;
+    }
+    .contact-item a {
+      color: rgba(245,240,232,.4); text-decoration: none; font-size: .85rem;
+      transition: color .25s;
+    }
+    .contact-item a:hover { color: var(--gold); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem clamp(1.5rem, 5vw, 4rem);
+      border-top: 1px solid rgba(201,169,110,.1);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy {
+      font-size: .75rem; color: rgba(245,240,232,.2);
+      letter-spacing: .08em;
+    }
+    .footer-social { display: flex; gap: 2rem; }
+    .footer-social a {
+      font-size: .75rem; letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(245,240,232,.25); text-decoration: none; transition: color .25s;
+    }
+    .footer-social a:hover { color: var(--gold); }
+
+    /* ── ANIMAÇÕES ── */
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes drawLine { from { width: 0; } to { width: 100%; } }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── MODAL DE PROJETO ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(28,25,23,.96);
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: #222019; max-width: 900px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      transform: translateY(30px);
+      transition: transform .4s cubic-bezier(.25,.46,.45,.94);
+    }
+    .modal-overlay.open .modal { transform: none; }
+    .modal-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: none; border: 1px solid rgba(201,169,110,.3);
+      width: 44px; height: 44px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--sand); font-size: 1.3rem; transition: border-color .2s;
+    }
+    .modal-close:hover { border-color: var(--gold); }
+    .modal-img {
+      width: 100%; height: 400px; object-fit: cover;
+    }
+    .modal-img-placeholder {
+      width: 100%; height: 400px; display: flex; align-items: center;
+      justify-content: center;
+    }
+    .modal-content { padding: 3rem; }
+    .modal-tag {
+      font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--sand); margin-bottom: .5rem; line-height: 1.1;
+    }
+    .modal-meta {
+      font-size: .82rem; color: rgba(245,240,232,.4);
+      margin-bottom: 2.5rem; letter-spacing: .06em;
+    }
+    .modal-desc {
+      color: rgba(245,240,232,.65); font-size: .98rem;
+      line-height: 1.85; margin-bottom: 2.5rem;
+    }
+    .modal-specs {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; border-top: 1px solid rgba(201,169,110,.15);
+      padding-top: 2rem;
+    }
+    .spec-label {
+      font-size: .7rem; letter-spacing: .16em; text-transform: uppercase;
+      color: rgba(245,240,232,.3); margin-bottom: .4rem;
+    }
+    .spec-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: var(--sand);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .positioning-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card:first-child { grid-row: auto; }
+      .project-card:first-child .card-img,
+      .card-img { height: 55vw; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-info { flex-direction: column; gap: 1.5rem; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Mariana Silva</a>
+    <ul class="nav-links">
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">Design de Interiores · São Paulo</div>
+    <h1 class="hero-name">
+      <span>Mariana</span>
+      <span class="last">Silva</span>
+    </h1>
+    <div class="hero-line-wrap">
+      <div class="hero-line"></div>
+    </div>
+    <div class="hero-sub">
+      <p class="hero-tagline">Espaços projetados com intenção — onde cada detalhe conta uma história e cada ambiente revela quem você é.</p>
+      <div class="hero-scroll">
+        <svg viewBox="0 0 18 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 1v22M1 15l8 8 8-8"/>
+        </svg>
+        Scroll
+      </div>
+    </div>
+  </section>
+
+  <!-- POSITIONING -->
+  <section class="positioning reveal">
+    <div class="positioning-grid">
+      <div>
+        <div class="positioning-label">Filosofia</div>
+        <blockquote class="positioning-quote">
+          "Um interior bem projetado não decora — ele<em> transforma</em>."
+        </blockquote>
+        <div class="positioning-stats">
+          <div>
+            <div class="stat-num">3+</div>
+            <div class="stat-label">Projetos entregues</div>
+          </div>
+          <div>
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Clientes satisfeitos</div>
+          </div>
+          <div>
+            <div class="stat-num">5★</div>
+            <div class="stat-label">Avaliação média</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="positioning-text">Acredito que o design de interiores vai além da estética. É sobre escuta, entendimento e tradução — pegar o jeito de viver de cada cliente e transformar em um espaço que pareça absolutamente deles, desde o primeiro dia.</p>
+        <p class="positioning-text" style="margin-top:1.2rem">Cada projeto começa com uma conversa e termina com um lar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJETOS -->
+  <section class="projects reveal" id="projetos">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Portfólio</div>
+        <h2 class="section-title">Projetos selecionados</h2>
+      </div>
+      <div class="section-count">01 — 03</div>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- Projeto 1 (grande) -->
+      <div class="project-card" onclick="openModal(0)">
+        <svg class="card-img-placeholder" viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg" style="height:72vh">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#2a2520"/>
+              <stop offset="100%" stop-color="#3d3028"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="900" fill="url(#g1)"/>
+          <!-- Sala minimalista simulada -->
+          <rect x="0" y="700" width="600" height="200" fill="#1C1917" opacity=".6"/>
+          <rect x="80" y="580" width="440" height="160" rx="4" fill="#C9A96E" opacity=".08"/>
+          <rect x="120" y="600" width="360" height="8" rx="2" fill="#C9A96E" opacity=".2"/>
+          <!-- Janela -->
+          <rect x="180" y="80" width="240" height="380" fill="#C9A96E" opacity=".06"/>
+          <line x1="300" y1="80" x2="300" y2="460" stroke="#C9A96E" stroke-width=".8" opacity=".2"/>
+          <line x1="180" y1="270" x2="420" y2="270" stroke="#C9A96E" stroke-width=".8" opacity=".2"/>
+          <!-- Textura de luz -->
+          <rect x="0" y="0" width="600" height="900" fill="url(#g1)" opacity=".3"/>
+          <!-- Label -->
+          <text x="300" y="830" text-anchor="middle" fill="rgba(245,240,232,0.2)" font-size="11" font-family="DM Sans,sans-serif" letter-spacing="3">ADICIONE SUA FOTO</text>
+        </svg>
+        <div class="card-overlay"></div>
+        <div class="card-body">
+          <div class="card-tag">Residencial · São Paulo</div>
+          <h3 class="card-title">Apartamento Vila Madalena</h3>
+          <div class="card-detail">120 m² · 2023</div>
+        </div>
+        <div class="card-arrow">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M1 13L13 1M13 1H5M13 1v8"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Projeto 2 -->
+      <div class="project-card" onclick="openModal(1)">
+        <svg class="card-img-placeholder" viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg" style="height:44vh">
+          <defs>
+            <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#322b24"/>
+              <stop offset="100%" stop-color="#28221c"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="500" fill="url(#g2)"/>
+          <!-- Cozinha silhueta -->
+          <rect x="0" y="340" width="600" height="160" fill="#1C1917" opacity=".7"/>
+          <rect x="0" y="300" width="600" height="50" fill="#2a2520" opacity=".9"/>
+          <rect x="0" y="290" width="600" height="15" fill="#C9A96E" opacity=".15"/>
+          <rect x="240" y="100" width="120" height="200" rx="2" fill="#C9A96E" opacity=".05"/>
+          <text x="300" y="465" text-anchor="middle" fill="rgba(245,240,232,0.15)" font-size="10" font-family="DM Sans,sans-serif" letter-spacing="3">ADICIONE SUA FOTO</text>
+        </svg>
+        <div class="card-overlay"></div>
+        <div class="card-body">
+          <div class="card-tag">Comercial · Campinas</div>
+          <h3 class="card-title">Café Conceito Jardins</h3>
+          <div class="card-detail">85 m² · 2024</div>
+        </div>
+        <div class="card-arrow">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M1 13L13 1M13 1H5M13 1v8"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Projeto 3 -->
+      <div class="project-card" onclick="openModal(2)">
+        <svg class="card-img-placeholder" viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg" style="height:44vh">
+          <defs>
+            <linearGradient id="g3" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stop-color="#1e1b17"/>
+              <stop offset="100%" stop-color="#302a22"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="500" fill="url(#g3)"/>
+          <!-- Quarto silhueta -->
+          <rect x="150" y="260" width="300" height="140" fill="#2a2520" opacity=".8"/>
+          <rect x="150" y="250" width="300" height="15" fill="#3a3028" opacity=".9"/>
+          <rect x="200" y="130" width="80" height="130" fill="#C9A96E" opacity=".05"/>
+          <rect x="320" y="130" width="80" height="130" fill="#C9A96E" opacity=".05"/>
+          <text x="300" y="465" text-anchor="middle" fill="rgba(245,240,232,0.15)" font-size="10" font-family="DM Sans,sans-serif" letter-spacing="3">ADICIONE SUA FOTO</text>
+        </svg>
+        <div class="card-overlay"></div>
+        <div class="card-body">
+          <div class="card-tag">Residencial · São Paulo</div>
+          <h3 class="card-title">Suíte Master Higienópolis</h3>
+          <div class="card-detail">45 m² · 2024</div>
+        </div>
+        <div class="card-arrow">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M1 13L13 1M13 1H5M13 1v8"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROCESSO -->
+  <section class="process reveal">
+    <div class="section-label">Como trabalho</div>
+    <h2 class="section-title" style="color:var(--ink);margin-top:.5rem">Do briefing ao ambiente</h2>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-num">i</div>
+        <div class="step-title">Escuta</div>
+        <p class="step-text">Começo entendendo como você vive, o que você ama, o que te incomoda e como você sonha que seu espaço poderia ser.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">ii</div>
+        <div class="step-title">Conceito</div>
+        <p class="step-text">Desenvolvo a identidade visual do projeto — paleta, texturas, mobiliário e iluminação — antes de qualquer decisão técnica.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">iii</div>
+        <div class="step-title">Projeto</div>
+        <p class="step-text">Plantas baixas, vistas 3D e renders realistas para que você veja exatamente o resultado antes da execução.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">iv</div>
+        <div class="step-title">Entrega</div>
+        <p class="step-text">Acompanho a execução da obra e a compra dos itens até a entrega das chaves — sem surpresas, sem improvisação.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="about reveal" id="sobre">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <div class="about-img-frame">
+          <div class="about-img-placeholder">
+            <svg class="about-img-icon" viewBox="0 0 48 48" fill="none" stroke="rgba(245,240,232,0.4)" stroke-width="1.2">
+              <circle cx="24" cy="18" r="8"/>
+              <path d="M6 42c0-9.9 8.1-18 18-18s18 8.1 18 18"/>
+            </svg>
+            <span class="about-img-text">Sua foto aqui</span>
+          </div>
+        </div>
+        <div class="about-accent"></div>
+      </div>
+      <div class="about-content">
+        <div class="section-label" style="margin-bottom:1.5rem">Sobre mim</div>
+        <p class="about-intro">
+          Criando espaços que <em>respiram</em>, que contam histórias, que fazem você querer ficar.
+        </p>
+        <p class="about-body">
+          Sou Mariana Silva, designer de interiores formada com paixão por espaços que equilibram função e beleza. Minha abordagem parte sempre das pessoas — os seus hábitos, os seus objetos, a sua luz preferida do dia.
+        </p>
+        <p class="about-body">
+          Trabalho com projetos residenciais e comerciais em São Paulo e região, entregando desde o conceito inicial até o acompanhamento completo da obra. Cada projeto é tratado como único — porque cada cliente é único.
+        </p>
+        <div class="about-skills">
+          <span class="skill-tag">Residencial</span>
+          <span class="skill-tag">Comercial</span>
+          <span class="skill-tag">Render 3D</span>
+          <span class="skill-tag">AutoCAD</span>
+          <span class="skill-tag">SketchUp</span>
+          <span class="skill-tag">Gestão de obra</span>
+          <span class="skill-tag">Iluminação</span>
+          <span class="skill-tag">Paisagismo</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section class="contact reveal" id="contato">
+    <div class="contact-label">Vamos conversar?</div>
+    <h2 class="contact-title">
+      <span>Conte-me</span>
+      <span class="accent">seu projeto.</span>
+    </h2>
+    <div class="contact-actions">
+      <a href="mailto:mariana@marianasilva.com.br" class="btn-primary">Enviar mensagem</a>
+      <a href="https://wa.me/5511999999999" class="btn-ghost" target="_blank">WhatsApp</a>
+    </div>
+    <div class="contact-info">
+      <div class="contact-item"><a href="mailto:mariana@marianasilva.com.br">mariana@marianasilva.com.br</a></div>
+      <div class="contact-item"><a href="tel:+5511999999999">+55 11 9 9999-9999</a></div>
+      <div class="contact-item"><a href="#">São Paulo, SP</a></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-copy">© 2025 Mariana Silva · Design de Interiores</span>
+    <div class="footer-social">
+      <a href="#" target="_blank">Instagram</a>
+      <a href="#" target="_blank">Pinterest</a>
+      <a href="#" target="_blank">Houzz</a>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal" style="position:relative">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modal-img-wrap"></div>
+      <div class="modal-content">
+        <div class="modal-tag" id="modal-tag"></div>
+        <h2 class="modal-title" id="modal-title"></h2>
+        <div class="modal-meta" id="modal-meta"></div>
+        <p class="modal-desc" id="modal-desc"></p>
+        <div class="modal-specs" id="modal-specs"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: .1 });
+    reveals.forEach(r => obs.observe(r));
+
+    // Dados dos projetos
+    const projects = [
+      {
+        tag: 'Residencial · São Paulo',
+        title: 'Apartamento Vila Madalena',
+        meta: '120 m²  ·  2023  ·  Design completo + acompanhamento de obra',
+        desc: 'Um apartamento para um casal jovem que queria um espaço simultaneamente sofisticado e acolhedor. O desafio foi integrar uma vasta coleção de arte com uma linguagem contemporânea sem poluição visual. A solução: paredes em tom neutro quente, mobiliário de linhas limpas e iluminação cenográfica que coloca cada peça em evidência. A cozinha integrada à sala cria um fluxo generoso para receber, enquanto os materiais — linho, carvalho e pedra — trazem textura e calor sem concorrer com a arte.',
+        specs: [
+          { label: 'Área', value: '120 m²' },
+          { label: 'Prazo', value: '6 meses' },
+          { label: 'Estilo', value: 'Contemporâneo' },
+        ],
+        gradient: 'linear-gradient(135deg, #2a2520 0%, #3d3028 100%)',
+      },
+      {
+        tag: 'Comercial · Campinas',
+        title: 'Café Conceito Jardins',
+        meta: '85 m²  ·  2024  ·  Projeto conceitual + execução',
+        desc: 'Um café autoral que precisava ser, ao mesmo tempo, cenário e experiência. A proposta une elementos industriais brutos — concreto aparente, estrutura metálica exposta — com detalhes artesanais em madeira e cerâmica. O balcão em mármore verde-eucalipto se tornou a assinatura visual do espaço e o ponto de conversa imediato de quem entra. A iluminação foi pensada para mudar de intensidade ao longo do dia, criando ambientes distintos para o rush da manhã e o ritmo mais lento da tarde.',
+        specs: [
+          { label: 'Área', value: '85 m²' },
+          { label: 'Prazo', value: '4 meses' },
+          { label: 'Estilo', value: 'Industrial orgânico' },
+        ],
+        gradient: 'linear-gradient(135deg, #322b24 0%, #28221c 100%)',
+      },
+      {
+        tag: 'Residencial · São Paulo',
+        title: 'Suíte Master Higienópolis',
+        meta: '45 m²  ·  2024  ·  Design de interiores + marcenaria personalizada',
+        desc: 'Uma suíte master que deveria funcionar como refúgio absoluto numa agenda de vida agitada. O projeto se concentrou em eliminar o ruído visual: closet integrado com portas flush do piso ao teto, cabeceira estofada em veludo que se expande como parede, e banheiro en suite com acesso discreto. A paleta — nude, areia e um toque de verde-salva — foi escolhida para induzir descanso. Cada detalhe de marcenaria foi desenhado sob medida, do nicho embutido à penteadeira com iluminação indireta.',
+        specs: [
+          { label: 'Área', value: '45 m²' },
+          { label: 'Prazo', value: '3 meses' },
+          { label: 'Estilo', value: 'Minimalista suave' },
+        ],
+        gradient: 'linear-gradient(135deg, #1e1b17 0%, #302a22 100%)',
+      },
+    ];
+
+    function openModal(idx) {
+      const p = projects[idx];
+      document.getElementById('modal-tag').textContent = p.tag;
+      document.getElementById('modal-title').textContent = p.title;
+      document.getElementById('modal-meta').textContent = p.meta;
+      document.getElementById('modal-desc').textContent = p.desc;
+
+      const imgWrap = document.getElementById('modal-img-wrap');
+      imgWrap.innerHTML = `
+        <div class="modal-img-placeholder" style="background:${p.gradient};position:relative">
+          <div style="text-align:center">
+            <svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="1.2">
+              <rect x="6" y="10" width="36" height="28" rx="2"/>
+              <circle cx="18" cy="22" r="4"/>
+              <path d="M6 34l10-10 6 6 6-8 14 16"/>
+            </svg>
+            <div style="margin-top:.8rem;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,169,110,0.3);font-family:'DM Sans',sans-serif">Adicione renders do projeto</div>
+          </div>
+        </div>`;
+
+      const specsEl = document.getElementById('modal-specs');
+      specsEl.innerHTML = p.specs.map(s => `
+        <div>
+          <div class="spec-label">${s.label}</div>
+          <div class="spec-value">${s.value}</div>
+        </div>`).join('');
+
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('modal').addEventListener('click', e => {
+      if (e.target === document.getElementById('modal')) closeModal();
+    });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>
